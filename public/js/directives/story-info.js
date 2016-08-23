@@ -4,6 +4,6 @@ app.directive('storyInfo', function() {
         scope: {
             info: '='
         },
-        templateUrl: 'js/directives/storyInfo.hmtl'
+        templateUrl: './js/directives/storyInfo.hmtl'
     };
 });

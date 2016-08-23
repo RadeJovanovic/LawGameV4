@@ -19,7 +19,7 @@
     </head>
 
     <body ng-app="lawGame" ng-cloak>
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
             <div class="navbar-header">
                 <a class="navbar-brand" ui-sref="login">m8Law Game App</a>
 		    </div>
@@ -32,12 +32,13 @@
         </nav>
 
         <div class="container">
-            <h1>Contract Law </h1>
-            <div ui-view></div> <!--this is where all the content goes-->
+            <div ui-view></div>
         </div>
+<!--
         <pre>
-            $stateParams = {{$stateParams}} <!--for debugging purposes-->
+            $stateParams = {{$stateParams}} for debugging purposes
         </pre>
+-->
 
 </body>
 </html>
