@@ -25,7 +25,6 @@ angular.module('lawGame', ['ui.router'])
             .state('selector', {
                 url:'/selector',
                 templateUrl: 'views/selector.html',
-                // main benefit of using the ui-router resolve property is the fact that the resolved information is also made available by ui-router to all child states of the current state. This is a fantastic feature that allows you to resolve the data only once and use it in different controllers in different child states.
                 resolve:{
                     resolvedScenes:  ['sceneService',
                         function(sceneService){
@@ -42,7 +41,7 @@ angular.module('lawGame', ['ui.router'])
                 controller: 'gameController',
                 resolve: {
                     sceneinfo: ['$stateParams', function($stateParams){
-                        return $stateParams.story;                 
+                        return $stateParams.id;                 
                     }]
                 }
             
@@ -106,6 +105,15 @@ angular.module('lawGame', ['ui.router'])
               console.log(scenes); //this returns a promise, cf. in the selectorController
               return resp.data;
             });
+    //LOOK AT HOW THIS BIT IS IMPLEMENTED
+//     $scope.contents = null;
+//    $http.get('mainContent.json')
+//        .success(function(data) {
+//            $scope.contents=data;
+//        })
+//        .error(function(data,status,error,config){
+//            $scope.contents = [{heading:"Error",description:"Could not load json   data"}];
+//        });
                
         var factory = {};
         factory.all = function () {
@@ -121,15 +129,6 @@ angular.module('lawGame', ['ui.router'])
           return factory;
 }])
 
-//.factory('simpleSceneService', ['$http', function($http) { 
-//  return $http.get('https://api.myjson.com/bins/r8od') 
-//            .success(function(data) { 
-//              return data; 
-//            }) 
-//            .error(function(err) { 
-//              return err; 
-//            }); 
-//}])
 
 .service('sceneUpdate', function($http) {
 
@@ -166,9 +165,10 @@ angular.module('lawGame', ['ui.router'])
     console.log("The selector controller is returning:" + resolvedScenes);
 }])
 
-.controller('gameController', function($scope) {
+.controller('gameController', '$sceneinfo', function($scope,sceneinfo) {
 // USE DEPENDENCY INJECTION TO INJECT THE SCENEINFO
     $scope.isQuestion = true;
+    $tateParams.id
 })
 
 .controller('editorController', ['$scope',
@@ -178,19 +178,15 @@ angular.module('lawGame', ['ui.router'])
     $scope.tagline = 'This is the editor page, from the controller';
     $scope.newScene = {};
                             
+    $scope.saveScene = function(){
+        
+    }
+                            
     $scope.saveThisScene = function() { 
         sceneService.saveScene($scope.newScene) //need to pass only the details of the new scene
             .then(saveSuccess, error);
         $scope.newScene = {};
     }
-//    simpleSceneService.success(function(data) {
-//        $scope.sceneList = data;
-//        var currentJson = data;
-//        console.log(data);
-//        var count = Object.keys(currentJson).length;
-//        console.log(count);
-//        
-//  })                       
 }])
 
 .controller('statsController', function($scope) {
