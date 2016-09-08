@@ -1,12 +1,26 @@
-// grab the mongoose module
 var mongoose = require('mongoose');
 
-// define our nerd model
-// module.exports allows us to pass this to other files when it is called
-module.exports = mongoose.Schema('sceneSchema', {
-	name : {type : String, default: ''}
-    
-    
-    /////////////// TRY TO NOT USE THIS FILE, YOU CAN DO THINGS WITHOUT MONGOOSE //////////////////
-    
+var sceneSchema = new mongoose.Schema({
+   id: {type: Number, unique: true},
+  story: Number,
+  number: Number,
+  title: String,
+  question: String,
+  answer1: {
+    response: String,
+    text: String,
+    next: Number
+  },
+  answer2: {
+    response: String,
+    text: String,
+    next: Number
+  },
+  authority: String,
+  video: Boolean,
+  resource: String,
+  thumbnail: String,
+  time: Number
 });
+
+module.exports = mongoose.model('Scene', sceneSchema);
