@@ -19,6 +19,22 @@
     <code>text = {{newScene.resource}}</code>
 -->
     <button ng-click="saveScene()">Save Scene</button>
+<!--    <button ng-click="getAllScenes()">Get Scenes</button>-->
     
+    <div id="scene-list" class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+
+                <!-- LOOP OVER THE TODOS IN $scope.todos -->
+                <div class="checkbox" ng-repeat="s in scenes">
+                    <label>Story Number:{{ s.storynumber }} </label>
+                    <label>Scene Number:{{ s.scenenumber }} </label>
+                    <label>
+                    <button ng-click="deleteScene(s._id)">Delete</button>
+                    <button ng-click="editScene(s._id)">Edit</button>  
+                    </label>
+                </div>
+
+            </div>
+        </div>
 
 </div>

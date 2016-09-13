@@ -46,29 +46,6 @@ var sceneSchema = new Schema({
 
 var Scene = mongoose.model('Scene', sceneSchema);
 
-//var newScene = new Scene({
-//  id: 12,
-//  story: 1,
-//  number: 1,
-//  title: 'Title 1',
-//  question: 'Is this question 1?',
-//  answer1: {
-//    response: 'a',
-//    text: 'Yes',
-//    next: null
-//  },
-//  answer2: {
-//    response: 'b',
-//    text: 'No',
-//    next: null
-//  },
-//  authority: 'Famous case 1',
-//  video: true,
-//  resource: '/asdf',
-//  thumbnail: '/zxcv',
-//  time: 60
-//});
-
 //newScene.save(function(err, data){ //note that this uses the SCHEMA, not the MODEL
 //  if (err) console.log(err);
 //  else console.log('Saved ', data );
@@ -104,7 +81,7 @@ module.exports = Scene;
     
     app.get('/scenes', function(req, res, next) {
       Scene.find(function(err, scenes){
-        if(err) return next(err); 
+        if(err) res.send(err);
         console.log('All scenes requested');
           res.json(scenes);
         });
@@ -114,7 +91,7 @@ module.exports = Scene;
         console.log(req.body.newScene);
       var newScene = new Scene(req.body.newScene);
       newScene.save(function(err, scene){
-        if(err) return next(err);
+        if(err) res.send(err);
           console.log('One new scene made');
         res.json(scene);
       });
@@ -123,28 +100,32 @@ module.exports = Scene;
     app.get('/scenes/:id', function(req, res, next) {
       var id = req.params.id;
         Scene.findById(id, function (err, scene) {
-        if (err) return next(err);
+        if(err) res.send(err);
           console.log('One scene requested');
         res.json(scene);
       });
     });
 
     app.put('/scenes/:id', function(req, res, next) {
-      var scene = new Scene(req.body.story);
+        var scene = new Scene(req.body.story);
         var id = req.params.id;
         console.log(scene);
         Scene.findByIdAndUpdate(id, scene, function (err, scene) {
-        if (err) return next(err);
-          console.log('One existing scene edited');
+        if(err) res.send(err);
+            console.log('One existing scene edited');
         res.json(scene);
       });
     });
 
     app.delete('/scenes/:id', function(req, res, next) {
-      Scene.findByIdAndRemove(req.params.id, req.body, function (err, scene) {
-        if (err) return next(err);
-          console.log('One scene deleted');
-        res.json(scene);
+        Scene.findByIdAndRemove(req.params.id, function (err, scene) {
+            if(err) res.send(err);
+            console.log('One scene deleted');
+        Scene.find(function(err, scenes){
+            if (err) res.send(err)
+            console.log('The rest of the scenes have been returned')
+            res.json(scenes)
+        })
       });
     });
 
