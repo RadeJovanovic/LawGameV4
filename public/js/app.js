@@ -161,7 +161,7 @@ angular.module('lawGame', ['ui.router'])
         sceneService.saveNew($scope.newScene)
         .success(function(data){
             console.log($scope.newScene);
-            scope.newScene = {}
+            $scope.newScene = {}
         })
         .error(function(data){
             console.log('Error: ' + data);
